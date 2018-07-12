@@ -8,7 +8,7 @@ public class Player extends GameObject
 		super(main, frames, x, y, setFrameInt);
 		movementSpeed = main.playerSpeed;
 		id = 42;
-		System.out.println("Player ID issued");
+		System.out.println("Player ID issued: "+id+" x: "+x+" y: "+ y);
 	}
 
 	@Override

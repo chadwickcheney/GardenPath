@@ -13,10 +13,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.JFrame;
 
 public class ControlSystem implements KeyListener, MouseListener, FocusListener, MouseMotionListener
-{	
+{
 
 	private ControlEvent event;
-	
+
 	private static Map<Integer, String> CODES = initializeCodes();
 	private static Map<Integer, String> initializeCodes()
 	{
@@ -25,6 +25,7 @@ public class ControlSystem implements KeyListener, MouseListener, FocusListener,
 		map.put(KeyEvent.VK_D, "right");
 		map.put(KeyEvent.VK_W, "up");
 		map.put(KeyEvent.VK_S, "down");
+		map.put(KeyEvent.VK_SHIFT, "laydown");
 		map.put(KeyEvent.VK_F3, "guiToggle");
 		map.put(KeyEvent.VK_SPACE, "space");
 		map.put(MouseEvent.BUTTON1, "rclick");
@@ -36,9 +37,9 @@ public class ControlSystem implements KeyListener, MouseListener, FocusListener,
 		map.put(MouseEvent.MOUSE_MOVED, "moving");
 		return map;
 	}
-	
+
 	private Map<String, Boolean> keys = new HashMap<>();
-	
+
 	public ControlSystem(ControlEvent event)
 	{
 		for (String value : CODES.values())
@@ -48,7 +49,7 @@ public class ControlSystem implements KeyListener, MouseListener, FocusListener,
 		this.event = event;
 		System.out.println("Control System");
 	}
-	
+
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
@@ -62,27 +63,33 @@ public class ControlSystem implements KeyListener, MouseListener, FocusListener,
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) 
+	public void keyTyped(KeyEvent e)
 	{
-		
+		String key = CODES.get(e.getKeyCode());
+		System.out.println("key typed: "+key);
+		if (key != null)
+		{
+			event.set(key, true);
+			keys.put(key, true);
+		}
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) 
+	public void keyReleased(KeyEvent e)
 	{
 		String key = CODES.get(e.getKeyCode());
 		if (key != null)
 		{
 			event.set(key, false);
 			keys.put(key, false);
-		}		
+		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		String key = CODES.get(e.getButton());
 		System.out.println(key);
-		
+
 	}
 
 	@Override
@@ -95,37 +102,37 @@ public class ControlSystem implements KeyListener, MouseListener, FocusListener,
 	@Override
 	public void mouseExited(MouseEvent e) {
 		String key = CODES.get(MouseEvent.MOUSE_EXITED);
-		System.out.println(key);		
+		System.out.println(key);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
 		String key = CODES.get(FocusEvent.FOCUS_GAINED);
-		System.out.println(key);	
+		System.out.println(key);
 	}
 
 	@Override
 	public void focusLost(FocusEvent arg0) {
-		String key = CODES.get(FocusEvent.FOCUS_LOST);	
-		System.out.println(key);			
+		String key = CODES.get(FocusEvent.FOCUS_LOST);
+		System.out.println(key);
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		event.setMouse(e.getX(), e.getY());
-		
+
 	}
 
 	@Override

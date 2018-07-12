@@ -41,7 +41,7 @@ public class Display
 		main.addFocusListener(main.controlSystem);
 		main.addMouseMotionListener(main.controlSystem);
 		
-		hideCursor(frame);
+		//hideCursor(frame);
 	}
 	
 	private void hideCursor(JFrame frame)

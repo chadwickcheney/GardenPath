@@ -21,13 +21,15 @@ public class Load
 
 	private HashMap<String, int[]> creaturesFramesSite = new HashMap<String, int[]>()
 	{
-		private static final long serialVErsionUID = 1L;
+		private static final long serialVersionUID = 1L;
 		{
-			int[] val = {0,5};
-			put("Player",val);
-			val[0]=0;
-			val[1]=11;
-			put("Golum", val);
+			put("basicHuman",getHashValues("basicHuman"));
+			put("maleHuman",getHashValues("maleHuman"));
+			put("femaleHuman",getHashValues("femaleHuman"));
+			put("golum",getHashValues("golum"));
+			put("ghost",getHashValues("ghost"));
+			put("spider",getHashValues("spider"));
+			put("vampire",getHashValues("vampire"));
 		}
 	};
 
@@ -36,6 +38,68 @@ public class Load
 		this.main = main;
 		random = new Random();
 		init(main.loadNewMap);
+	}
+
+	private int[] getHashValues(String key)
+	{
+		int[] val = new int[4];
+		if (key == "basicHuman")
+		{
+			val[0] = 0;
+			val[1] = 2;
+			val[2] = 0;
+			val[3] = 0;
+			return val;
+		}
+		if (key == "maleHuman")
+		{
+			val[0] = 0;
+			val[1] = 5;
+			val[2] = 1;
+			val[3] = 0;
+			return val;
+		}
+		if (key == "femaleHuman")
+		{
+			val[0] = 0;
+			val[1] = 8;
+			val[2] = 2;
+			val[3] = 0;
+			return val;
+		}
+		if (key == "golum")
+		{
+			val[0] = 0;
+			val[1] = 11;
+			val[2] = 0;
+			val[3] = 2;
+			return val;
+		}
+		if (key == "spider")
+		{
+			val[0] = 4;
+			val[1] = 11;
+			val[2] = 1;
+			val[3] = 3;
+			return val;
+		}
+		if (key == "ghost")
+		{
+			val[0] = 0;
+			val[1] = 2;
+			val[2] = 0;
+			val[3] = 3;
+			return val;
+		}
+		if (key == "vampire")
+		{
+			val[0] = 0;
+			val[1] = 2;
+			val[2] = 0;
+			val[3] = 0;
+			return val;
+		}
+		return null;
 	}
 
 	public void init(boolean load)
@@ -55,28 +119,52 @@ public class Load
 		if (main.debug)
 			System.out.println("Loading Creature Frames");
 
-		//Player
-		loadImagesToFramesList(main.creatureFrames, main.creatureFramesFile, main.deadFramesFile, creaturesFramesSite.get("Player"));
-
-		//Golum
-		loadImagesToFramesList(main.creatureFrames, main.creatureFramesFile, main.deadFramesFile, creaturesFramesSite.get("Golum"));
-
 		//gui
 		loadImage(main.guiFrames, main.enviromentTilesFile, 1, 12);
+		loadImage(main.guiFrames, main.guiTilesFile, 0, 0);
+		loadImage(main.guiFrames, main.guiTilesFile, 0, 1);
+		loadImage(main.guiFrames, main.guiTilesFile, 0, 2);
+		loadImage(main.guiFrames, main.guiTilesFile, 0, 3);
 
+		//basicHumanFrames
+		loadImagesToFramesList(main.basicHumanFrames, main.creatureFramesFile, main.deadFramesFile, creaturesFramesSite.get("basicHuman"), true);
+		//maleHumanFrames
+		loadImagesToFramesList(main.maleHumanFrames, main.creatureFramesFile, main.deadFramesFile, creaturesFramesSite.get("maleHuman"), true);
+		//femaleHumanFrames
+		loadImagesToFramesList(main.femaleHumanFrames, main.creatureFramesFile, main.deadFramesFile, creaturesFramesSite.get("femaleHuman"), true);
+		//golumFrames
+		loadImagesToFramesList(main.golumFrames, main.creatureFramesFile, main.deadFramesFile, creaturesFramesSite.get("golum"), false);
+		//spiderFrames
+		loadImagesToFramesList(main.spiderFrames, main.creatureFramesFile, main.deadFramesFile, creaturesFramesSite.get("spider"), false);
+		//ghostFrames
+		loadImagesToFramesList(main.ghostFrames, main.creatureFramesFile, main.deadFramesFile, creaturesFramesSite.get("ghost"), false);
+		//vampireFrames
+		loadImagesToFramesList(main.vampireFrames, main.creatureFramesFile, main.deadFramesFile, creaturesFramesSite.get("vampire"), true);
 	}
 
-	public void loadImagesToFramesList(List<Frame> frames, String filename, String filename1, int[] m)
+	public void loadImagesToFramesList(List<Frame> frames, String filename, String filename1, int[] m, boolean dead)
 	{
+		//basic {0,2}
+		//male {0,5}
+		//female {0,8}
+		//golum {0,11}
+		//Chiroptera {4,5}
+		//Spider {4,11}
+		//Vampire {0,2}
+
 		for (int i = m[0]; i <= m[0]+3; i++)
 		{
 			loadImage(frames, filename, m[1]-1, i);
 			loadImage(frames, filename, m[1], i);
 			loadImage(frames, filename, m[1]-1, i);
 			loadImage(frames, filename, m[1]-2, i);
-			
+
 		}
-		loadImage(frames, filename, m[1], m[0]);
+		loadImage(frames, filename, m[2], m[3]); //laydown
+		if (dead)
+				loadImage(frames, filename, m[2], m[3]+1); //dead
+		else
+			loadImage(frames, filename, m[2], m[3]); //dead same as laying down for some creatures
 	}
 
 	public void loadImage(List<Frame> frames, String imagefilename, int x, int y)
@@ -282,5 +370,48 @@ public class Load
 	    }
 
 	    return m;
+	}
+
+	public BufferedImage makeImage(int[][] array, String imagefilename, HashMap<Integer, BufferedImage> mapPlot)
+  {
+		if (array == null)
+			System.out.println("array is null");
+    int cols = array.length;
+    int rows = array[0].length;
+
+		if (main.debug)
+			System.out.println("converting array to an image");
+		try {
+
+			BufferedImage image = ImageIO.read(getClass().getResourceAsStream(imagefilename));
+
+			if (array == null)
+				System.out.println("Array is null");
+			JPanel gui = new JPanel(new BorderLayout(array.length,array[0].length));
+			BufferedImage map = new BufferedImage(cols*main.tilePixWidth, rows*main.tilePixHeight, BufferedImage.TYPE_INT_RGB);
+
+			if (main.debug)
+				System.out.println("arrayConvertImage Dimensions: rows: "+array.length+", cols: "+array[0].length);
+			for (int i = 0; i < cols; i++)
+			{
+				for (int c = 0; c < rows; c++)
+				{
+					System.out.println(i+" "+c);
+					System.out.println(array[i][c]);
+					BufferedImage tile = mapPlot.get(array[i][c]);
+					Graphics2D tileGraphics = map.createGraphics();
+					tileGraphics.drawImage(tile, getXPixels(i), getYPixels(c), null);
+				}
+			}
+
+			ImageIO.write(map, "png", new File("res/map.png"));
+
+			return map;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 }
