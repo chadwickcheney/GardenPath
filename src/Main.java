@@ -1,51 +1,51 @@
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.util.LinkedList;
 import java.util.List;
 
-
-public class Main extends Canvas implements Runnable
-{
-	//VARIABLES
-	//This
+public class Main extends Canvas implements Runnable {
+	// VARIABLES
+	// This
 	private static final long serialVersionUID = 1L;
 	private Thread thread;
 	private boolean running;
 	public int fps;
 	private int sleepTime = 1000;
-	public int playerSpeed = 4;
-	public int guiScale = 6;
+	public int playerSpeed = 10;
 	public int widthTiles = 200;
 	public int heightTiles = 200;
 	public int[][] enviromentArray = new int[widthTiles][heightTiles];
 	public boolean loadNewMap = false;
 	public boolean debug = true;
-	//Strings
+	// Strings
 	public String title = "Ridge";
 	public String enviromentArrayLoadFile = "";
 	public String guiTilesFile = "userInterface.png";
 	public String enviromentTilesFile = "basictiles2.png";
 	public String creatureFramesFile = "characters.png";
 	public String deadFramesFile = "dead.png";
-	//Graphics String Variables
-	public String mainFont = "Courier New";
-	public int fontSize = 7 * guiScale;
-	public Color guiFontColor = new Color(23,91,115);
-	//Screen
+	// Screen
 	public int Width = 1920;
 	public int Height = 1080;
 	public int FRAME_RATE = 210;
 	public int scaleX = 6;
 	public int scaleY = 6;
-	//Sprites
+	public int guiScaleX = 3;
+	public int guiScaleY = 3;
+	// Graphics String Variables
+	public int fontSize = (guiScaleX*guiScaleY)/2 * (guiScaleX * guiScaleY);
+	public Font mainFont = (new Font("Courier New", Font.BOLD, fontSize));
+	public Color guiFontColor = new Color(23, 91, 115);
+	// Sprites
 	public int tilePixWidth = 16;
 	public int tilePixHeight = 16;
-	//Lists
+	// Lists
 	private List<GameObject> objects = new LinkedList<GameObject>();
 	private List<UserInterface> guiList = new LinkedList<UserInterface>();
-	//Collective Frames
+	// Collective Frames
 	public List<Frame> mapFrames = new LinkedList<Frame>();
 	public List<Frame> creatureFrames = new LinkedList<Frame>();
 	public List<Frame> basicHumanFrames = new LinkedList<Frame>();
@@ -58,7 +58,7 @@ public class Main extends Canvas implements Runnable
 	public List<Frame> itemFrames = new LinkedList<Frame>();
 	public List<Frame> tileFrames = new LinkedList<Frame>();
 	public List<Frame> guiFrames = new LinkedList<Frame>();
-	//Instances
+	// Instances
 	public Handler handler;
 	private Display display;
 	public ControlEvent controlEvent;
@@ -70,53 +70,41 @@ public class Main extends Canvas implements Runnable
 	public Spawner spawn;
 	public Interface ui;
 
-	public Main()
-	{
+	public Main() {
 		InitiateSystems();
 		display.WindowInit();
 		spawn.initSpawn();
 		start();
 	}
 
-	private void InitiateSystems()
-	{
+	private void InitiateSystems() {
 		handler = new Handler(this, objects, guiList);
 		display = new Display(this);
 		controlEvent = new ControlEvent(this, FRAME_RATE);
 		controlSystem = new ControlSystem(controlEvent);
 		load = new Load(this);
-		System.out.println(mapFrames.size());
 		world = new World(this, mapFrames);
 		spawn = new Spawner(this, handler);
 	}
 
-	private void printMessage(String msg)
-	{
-		System.out.println(msg);
-	}
-
-	public void start()
-	{
+	public void start() {
 		thread = new Thread(this);
 		thread.start();
 		running = true;
 	}
 
-	public void run()
-	{
+	public void run() {
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
 		int frames = 0;
-		while(running)
-		{
+		while (running) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
 			lastTime = now;
-			while( delta >= 1)
-			{
+			while (delta >= 1) {
 				handler.tick();
 				delta--;
 			}
@@ -124,8 +112,7 @@ public class Main extends Canvas implements Runnable
 				render();
 			frames++;
 
-			if (System.currentTimeMillis() - timer > 1000)
-			{
+			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
 				fps = frames;
 				frames = 0;
@@ -133,11 +120,9 @@ public class Main extends Canvas implements Runnable
 		}
 	}
 
-	public void render()
-	{
+	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
-		if (bs == null)
-		{
+		if (bs == null) {
 			createBufferStrategy(3);
 			return;
 		}
@@ -148,17 +133,15 @@ public class Main extends Canvas implements Runnable
 		bs.show();
 	}
 
-	private void sleep(int x)
-	{
-		try{
+	private void sleep(int x) {
+		try {
 			Thread.sleep(x);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		System.out.println("Main");
 		Main main = new Main();
 	}
