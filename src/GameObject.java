@@ -8,14 +8,15 @@ abstract class GameObject {
 	// VARIABLES
 	// This
 	protected BufferedImage img;
-	protected int x, y, gridX, gridY, setFrameInit, movementSpeed, scaleX, scaleY, id, moveSpeed;
+	protected int x, y, gridX, gridY, renderX, renderY, setFrameInit, movementSpeed, scaleX, scaleY, id, moveSpeed,
+			allScaleX, allScaleY, renderXOffset, renderYOffset;
 	protected boolean walledR, walledL, walledU, walledD, arrivedX, arrivedY, doingSomething;
 	protected int[] destinationPair;
 
 	// LISTS
 	protected List<Frame> frames;
 	protected List<Chore> taskList = new LinkedList<Chore>();
-	
+
 	// Instances
 	protected Main main;
 	protected ControlEvent event;
@@ -24,19 +25,22 @@ abstract class GameObject {
 	public GameObject(Main main, List<Frame> frames, int x, int y, int setFrameInt) {
 		this.main = main;
 		this.frames = frames;
+		this.random = new Random();
 		img = frames.get(setFrameInt).img;
 		event = main.controlEvent;
 		this.x = x;
 		this.y = y;
 		this.setFrameInit = setFrameInit;
-		this.moveSpeed = 1;
-		this.destinationPair = new int[] { 10, 10 };
+		this.moveSpeed = 4;
+		this.destinationPair = new int[] { random.nextInt(100), random.nextInt(100) };
 		doingSomething = false;
 		random = new Random();
-		taskList.add(new Chore("get an appe", false));
+		taskList.add(new Chore("get an apple", false));
+		allScaleX = main.scaleX * main.tilePixWidth;
+		allScaleY = main.scaleY * main.tilePixHeight;
+		renderXOffset = (main.scaleX * (main.tilePixWidth / 2));
+		renderYOffset = (main.scaleY * (main.tilePixHeight));
 	}
-
-	abstract public void render(Graphics g);
 
 	public void addFrame(BufferedImage image) {
 		this.frames.add(new Frame(image, this.frames.size() + 1));
@@ -51,19 +55,24 @@ abstract class GameObject {
 	public void detectCollisoins() {
 
 	}
-	
-	//For all GameObjects except Mouse and Player as There x and y are treated differently
-	public void updateGrid() { 
-		gridX = event.getGridXGameObject(x);
-		gridY = event.getGridYGameObject(y);
+
+	// For all GameObjects except Mouse and Player as There x and y are treated
+	// differently
+	public void updateGrid() {
+		gridX = getGridX(x + renderXOffset);
+		gridY = getGridY(y + renderYOffset);
 	}
 
 	public void moveX(int direction) {
-		x += (moveSpeed * direction);
+		if (main.enviromentArray[gridX+1][gridY+1] >= 0) {
+			x += (moveSpeed * direction);
+		}
 	}
 
 	public void moveY(int direction) {
-		y += (moveSpeed * direction);
+		if (main.enviromentArray[gridX+1][gridY+1] >= 0) {
+			y += (moveSpeed * direction);
+		}
 	}
 
 	public int[] getRandomDestination() {
@@ -83,13 +92,25 @@ abstract class GameObject {
 			setDestination(getRandomDestination());
 		}
 	}
-	
-	public boolean checkTaskList()
-	{
-		for (Chore t: taskList){
+
+	public boolean checkTaskList() {
+		for (Chore t : taskList) {
 			if (t.getStatus() == false)
 				return false;
 		}
 		return true;
+	}
+
+	public int getGridX(int x) {
+		return ((x) / (allScaleX));
+	}
+
+	public int getGridY(int y) {
+		return ((y) / (allScaleY));
+	}
+
+	public void render(Graphics g) {
+		g.drawImage(img, x + main.world.x + renderXOffset, y + main.world.y + renderYOffset,
+				img.getWidth() * main.scaleX, img.getHeight() * main.scaleY, null);
 	}
 }

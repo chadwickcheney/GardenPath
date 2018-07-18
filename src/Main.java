@@ -142,7 +142,6 @@ public class Main extends Canvas implements Runnable {
 	}
 
 	public static void main(String[] args) {
-		System.out.println("Main");
 		Main main = new Main();
 	}
 }

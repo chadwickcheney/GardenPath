@@ -9,12 +9,6 @@ public class Citizen extends GameObject {
 	}
 
 	@Override
-	public void render(Graphics g) {
-		g.drawImage(img, x + main.world.x, y + main.world.y, img.getWidth() * main.scaleX,
-				img.getHeight() * main.scaleY, null);
-	}
-
-	@Override
 	public void tick() {
 		if (!(arrivedX)) {
 			if (gridX < destinationPair[0]) {

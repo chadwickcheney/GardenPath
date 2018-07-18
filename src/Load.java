@@ -191,8 +191,8 @@ public class Load {
 			HashMap<Integer, BufferedImage> mapPlot = new HashMap<Integer, BufferedImage>() {
 				private static final long serialVersionUID = 1L;
 				{
-					put(0, image.getSubimage(getXPixels(6), getYPixels(2), main.tilePixWidth, main.tilePixHeight)); // ground
-					put(-1, image.getSubimage(getXPixels(3), getYPixels(12), main.tilePixWidth, main.tilePixHeight)); // Wall
+					put(0, image.getSubimage(getXPixels(0), getYPixels(8), main.tilePixWidth, main.tilePixHeight)); // ground
+					put(-1, image.getSubimage(getXPixels(1), getYPixels(0), main.tilePixWidth, main.tilePixHeight)); // Wall
 				}
 			};
 
@@ -247,8 +247,7 @@ public class Load {
 		int[][] array = new int[cols][rows];
 
 		if (main.debug)
-			System.out
-					.println("getNewEnviromentArray Dimensions: rows: " + array.length + ", cols: " + array[0].length);
+			System.out.println("getNewEnviromentArray Dimensions: rows: " + array.length + ", cols: " + array[0].length);
 
 		for (int i = 0; i < cols; i++) {
 			for (int j = 0; j < rows; j++) {

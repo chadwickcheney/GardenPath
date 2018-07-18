@@ -39,19 +39,16 @@ public class World {
 	}
 
 	public void tick() {
-		// updateWalls();
-		// System.out.print("L:"+walledL+" R:"+walledR+" U:"+walledU+"
-		// D:"+walledD+"\n");
-		if (event.up && y <= 0 && (!(walledU))) {
+		if (event.up && y <= 0 && (!(walledU)) && main.enviromentArray[main.player.gridX][main.player.gridY-1] >= 0) {
 			y = y + main.playerSpeed;
 		}
-		if (event.down && y + img.getHeight() * main.scaleY - main.playerSpeed > main.Height && (!(walledD))) {
+		if (event.down && y + img.getHeight() * main.scaleY - main.playerSpeed > main.Height && (!(walledD)) && main.enviromentArray[main.player.gridX][main.player.gridY+1] >= 0) {
 			y = y - main.playerSpeed;
 		}
-		if (event.left && x <= 0 && (!(walledL))) {
+		if (event.left && x <= 0 && (!(walledL)) && main.enviromentArray[main.player.gridX-1][main.player.gridY] >= 0) {
 			x = x + main.playerSpeed;
 		}
-		if (event.right && x + img.getWidth() * main.scaleX - main.playerSpeed > main.Width && (!(walledR))) {
+		if (event.right && x + img.getWidth() * main.scaleX - main.playerSpeed > main.Width && (!(walledR)) && main.enviromentArray[main.player.gridX+1][main.player.gridY] >= 0) {
 			x = x - main.playerSpeed;
 		}
 	}

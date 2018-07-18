@@ -44,13 +44,12 @@ public class ControlSystem implements KeyListener, MouseListener, FocusListener,
 			keys.put(value, false);
 		}
 		this.event = event;
-		System.out.println("Control System");
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		String key = CODES.get(e.getKeyCode());
-		// System.out.println(key);
+		//System.out.println("Key pressed: "+key);
 		if (key != null) {
 			event.set(key, true);
 			keys.put(key, true);
@@ -66,7 +65,7 @@ public class ControlSystem implements KeyListener, MouseListener, FocusListener,
 			keys.put(key, true);
 		}
 	}
-
+	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		String key = CODES.get(e.getKeyCode());
@@ -79,7 +78,6 @@ public class ControlSystem implements KeyListener, MouseListener, FocusListener,
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		String key = CODES.get(e.getButton());
-		event.setMouseClicked(key);
 	}
 
 	@Override

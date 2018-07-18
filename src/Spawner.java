@@ -30,7 +30,7 @@ public class Spawner {
 		initPlayer();
 		initMouse();
 		initInterfaces();
-		spawnMale(0,0,0);
+		spawnMale(0, 0, 0);
 	}
 
 	public void initPlayer() {
@@ -45,14 +45,18 @@ public class Spawner {
 	public void spawnGolum(int x, int y, int setFrameInit) {
 		handler.addGameObject(new Golum(main, main.golumFrames, x, y, setFrameInit));
 	}
-	
+
 	public void spawnMale(int x, int y, int setFrameInit) {
-		handler.addGameObject(new Citizen(main, main.maleHumanFrames, x, y, setFrameInit));
+		for (int i = 0; i < 1000; i++) {
+			handler.addGameObject(new Citizen(main, main.maleHumanFrames, x, y, setFrameInit));
+		}
 	}
 
 	public void initInterfaces() {
-		spawnUserInterface(getDimensionsMessage("Player Grid [xx][yy]",main.mainFont, main.fontSize), main.fontSize, main.guiFontColor, main.mainFont, "player grid");
-		spawnUserInterface(getDimensionsMessage("Mouse Grid [xx][yy]",main.mainFont, main.fontSize), main.fontSize, main.guiFontColor, main.mainFont, "mouse grid");
+		spawnUserInterface(getDimensionsMessage("Player Grid [xx][yy]", main.mainFont, main.fontSize), main.fontSize,
+				main.guiFontColor, main.mainFont, "player grid");
+		spawnUserInterface(getDimensionsMessage("Mouse Grid [xx][yy]", main.mainFont, main.fontSize), main.fontSize,
+				main.guiFontColor, main.mainFont, "mouse grid");
 	}
 
 	public void spawnUserInterface(int[][] m, int fontSize, Color fontColor, Font font, String text) {
@@ -68,13 +72,13 @@ public class Spawner {
 		int tiles = width / (main.tilePixWidth * main.guiScaleX) + 1;
 		int[][] m = new int[tiles][1];
 		m[0][0] = 0;
-		m[tiles-1][0] = 1;
+		m[tiles - 1][0] = 1;
 		for (int i = 1; i < tiles - 1; i++)
 			m[i][0] = 2;
 
 		return m;
 	}
-	
+
 	public int[][] getDimensionsMessage1(String text, String font, int fontSize) {
 		Graphics g = main.getGraphics();
 		g.setFont(new Font(font, Font.PLAIN, fontSize));

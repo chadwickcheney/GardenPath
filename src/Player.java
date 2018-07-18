@@ -17,8 +17,8 @@ public class Player extends GameObject {
 	}
 
 	public void updateGrid() {
-		gridX = event.getGridX(x);
-		gridY = event.getGridY(y);
+		gridX = getGridX(-main.world.x+x+renderXOffset);
+		gridY = getGridY(-main.world.y+y+renderYOffset);
 	}
 
 	public void keyListener() {
@@ -49,7 +49,6 @@ public class Player extends GameObject {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(img, x - (main.scaleX * (main.tilePixWidth / 2)), y - (main.scaleY * (main.tilePixHeight)),
-				img.getWidth() * main.scaleX, img.getHeight() * main.scaleY, null);
+		g.drawImage(img, x, y, img.getWidth() * main.scaleX, img.getHeight() * main.scaleY, null);
 	}
 }
