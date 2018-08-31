@@ -5,7 +5,7 @@ public class Citizen extends GameObject {
 
 	public Citizen(Main main, List<Frame> frames, int x, int y, int setFrameInt) {
 		super(main, frames, x, y, setFrameInt);
-		System.out.println("Frames size: "+ frames.size());
+		//System.out.println("Frames size: "+ frames.size());
 	}
 
 	@Override

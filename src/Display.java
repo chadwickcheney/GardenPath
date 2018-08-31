@@ -27,7 +27,7 @@ public class Display {
 		frame.setMinimumSize(new Dimension(main.Width, main.Height));
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
-		frame.setBounds(-1920, -200, -100, -100);
+		//frame.setBounds(-1920, -200, -100, -100);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
 		frame.add(main);

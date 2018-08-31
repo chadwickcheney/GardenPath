@@ -31,8 +31,6 @@ public class Mouse extends GameObject {
 				(main.world.y%(allScaleY)) + 
 				((main.world.y/(allScaleY)) * 
 				(allScaleY))
-			);
-		
-		
+			);		
 	}
 }
