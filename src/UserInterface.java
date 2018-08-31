@@ -4,7 +4,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-abstract class UserInterface {
+abstract class UserInterface
+{
 	// VARIABLES
 	// This
 	protected int xImage, yImage, fontSize, xText, yText;
@@ -18,8 +19,10 @@ abstract class UserInterface {
 	public HashMap<String, GameObject> interfacesPlot = new HashMap<String, GameObject>();
 
 	public UserInterface(Main main, BufferedImage img, int x, int y, int fontSize, Color fontColor, Font font,
-			String text) {
+			String text)
+	{
 		this.main = main;
+		this.event = main.controlEvent;
 		this.img = img;
 		this.xImage = getLocationXImage(x);
 		this.yImage = getLocationYImage(y);
@@ -32,31 +35,36 @@ abstract class UserInterface {
 		initHashMap();
 	}
 
-	public void initHashMap() {
+	public void initHashMap()
+	{
 		interfacesPlot.put("player grid", main.player);
 		interfacesPlot.put("mouse grid", main.mouse);
 	}
-	
-	public int getLocationXImage(int x) {
-		int result = x*(16*main.guiScaleX);
+
+	public int getLocationXImage(int x)
+	{
+		int result = x * (16 * main.guiScaleX);
 		return result;
-	}
-	
-	public int getLocationYImage(int y) { 
-		int result = y*(16*main.guiScaleY);
-		return result;
-	}
-	
-	public int getLocationXText(int x) { 
-		int result = ((img.getWidth())/2);
-		return (x+(main.tilePixWidth));
 	}
 
-	public int getLocationYText(int y) { 
-		int result = ((img.getHeight())/2);
-		return (y+((img.getHeight()*main.guiScaleY))-(result));
+	public int getLocationYImage(int y)
+	{
+		int result = y * (16 * main.guiScaleY);
+		return result;
 	}
-	
+
+	public int getLocationXText(int x)
+	{
+		int result = ((img.getWidth()) / 2);
+		return (x + (main.tilePixWidth));
+	}
+
+	public int getLocationYText(int y)
+	{
+		int result = ((img.getHeight()) / 2);
+		return (y + ((img.getHeight() * main.guiScaleY)) - (result));
+	}
+
 	abstract public void render(Graphics g);
 
 	abstract public void tick();

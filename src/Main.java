@@ -5,8 +5,10 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
-public class Main extends Canvas implements Runnable {
+public class Main extends Canvas implements Runnable
+{
 	// VARIABLES
 	// This
 	private static final long serialVersionUID = 1L;
@@ -18,11 +20,12 @@ public class Main extends Canvas implements Runnable {
 	public int widthTiles = 200;
 	public int heightTiles = 200;
 	public int[][] enviromentArray = new int[widthTiles][heightTiles];
-	public boolean loadNewMap = false;
+	public boolean loadMap = false;
 	public boolean debug = true;
+	public boolean gameplay = false;
 	// Strings
 	public String title = "Ridge";
-	public String enviromentArrayLoadFile = "";
+	public String enviromentArrayFile = "enviromentFile.txt";
 	public String guiTilesFile = "userInterface.png";
 	public String enviromentTilesFile = "basictiles2.png";
 	public String creatureFramesFile = "characters.png";
@@ -36,7 +39,7 @@ public class Main extends Canvas implements Runnable {
 	public int guiScaleX = 3;
 	public int guiScaleY = 3;
 	// Graphics String Variables
-	public int fontSize = (guiScaleX*guiScaleY)/2 * (guiScaleX * guiScaleY);
+	public int fontSize = (guiScaleX * guiScaleY) / 2 * (guiScaleX * guiScaleY);
 	public Font mainFont = (new Font("Courier New", Font.BOLD, fontSize));
 	public Color guiFontColor = new Color(23, 91, 115);
 	// Sprites
@@ -70,14 +73,21 @@ public class Main extends Canvas implements Runnable {
 	public Spawner spawn;
 	public Interface ui;
 
-	public Main() {
+	public Main()
+	{
+		if (gameplay)
+		{
+			userLoadQ();
+		}
 		InitiateSystems();
-		display.WindowInit();
+		int[] setArea = { 5, -1085, 0, 0 };
+		display.WindowInit(setArea);
 		spawn.initSpawn();
 		start();
 	}
 
-	private void InitiateSystems() {
+	private void InitiateSystems()
+	{
 		handler = new Handler(this, objects, guiList);
 		display = new Display(this);
 		controlEvent = new ControlEvent(this, FRAME_RATE);
@@ -87,24 +97,28 @@ public class Main extends Canvas implements Runnable {
 		spawn = new Spawner(this, handler);
 	}
 
-	public void start() {
+	public void start()
+	{
 		thread = new Thread(this);
 		thread.start();
 		running = true;
 	}
 
-	public void run() {
+	public void run()
+	{
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
 		int frames = 0;
-		while (running) {
+		while (running)
+		{
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
 			lastTime = now;
-			while (delta >= 1) {
+			while (delta >= 1)
+			{
 				handler.tick();
 				delta--;
 			}
@@ -112,7 +126,8 @@ public class Main extends Canvas implements Runnable {
 				render();
 			frames++;
 
-			if (System.currentTimeMillis() - timer > 1000) {
+			if (System.currentTimeMillis() - timer > 1000)
+			{
 				timer += 1000;
 				fps = frames;
 				frames = 0;
@@ -120,9 +135,11 @@ public class Main extends Canvas implements Runnable {
 		}
 	}
 
-	public void render() {
+	public void render()
+	{
 		BufferStrategy bs = this.getBufferStrategy();
-		if (bs == null) {
+		if (bs == null)
+		{
 			createBufferStrategy(3);
 			return;
 		}
@@ -133,15 +150,41 @@ public class Main extends Canvas implements Runnable {
 		bs.show();
 	}
 
-	private void sleep(int x) {
-		try {
+	private void sleep(int x)
+	{
+		try
+		{
 			Thread.sleep(x);
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
 
-	public static void main(String[] args) {
+	public void userLoadQ()
+	{
+		int var;
+		while (true)
+		{
+			System.out.print("Would you like to load the enviroment array file?");
+			try
+			{
+				Scanner userInput = new Scanner(System.in);
+				var = userInput.nextInt();
+				userInput.close();
+				break;
+			} catch (Exception e)
+			{
+				System.out.print("There was a user input error, please try again: ");
+				e.printStackTrace();
+			}
+		}
+		if (var == 1)
+			loadMap = true;
+	}
+
+	public static void main(String[] args)
+	{
 		Main main = new Main();
 	}
 }
