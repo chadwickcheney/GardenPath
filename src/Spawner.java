@@ -55,18 +55,19 @@ public class Spawner
 
 	public void spawnMale(int x, int y, int setFrameInit)
 	{
-		for (int i = 0; i < 1000; i++)
-		{
-			handler.addGameObject(new Citizen(main, main.maleHumanFrames, x, y, setFrameInit));
-		}
+		handler.addGameObject(new Citizen(main, main.maleHumanFrames, x, y, setFrameInit));
 	}
 
 	public void initInterfaces()
 	{
-		spawnUserInterface(getDimensionsMessage("Player Grid [xx][yy]", main.mainFont, main.fontSize), main.fontSize,
-				main.guiFontColor, main.mainFont, "player grid");
-		spawnUserInterface(getDimensionsMessage("Mouse Grid [xx][yy]", main.mainFont, main.fontSize), main.fontSize,
-				main.guiFontColor, main.mainFont, "mouse grid");
+		spawnUserInterface(getDimensionsMessage("Player Grid [xx][yy]", main.mainFont, main.fontSize),
+			main.fontSize, main.guiFontColor, main.mainFont, "player grid");
+
+		spawnUserInterface(getDimensionsMessage("Mouse Grid [xx][yy]", main.mainFont, main.fontSize),
+			main.fontSize, main.guiFontColor, main.mainFont, "mouse grid");
+
+		spawnUserInterface(getDimensionsMessage("Mouse Env. Grid [xx][yy]", main.mainFont, main.fontSize),
+			main.fontSize, main.guiFontColor, main.mainFont, "env grid");
 	}
 
 	public void spawnUserInterface(int[][] m, int fontSize, Color fontColor, Font font, String text)

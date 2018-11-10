@@ -30,8 +30,6 @@ public class Handler
 		for (GameObject o : objects)
 		{
 			o.tick();
-			if (!(o instanceof Player) && (!(o instanceof Mouse)))
-				o.uniformTick();
 		}
 	}
 

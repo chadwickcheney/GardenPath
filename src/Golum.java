@@ -8,19 +8,4 @@ public class Golum extends GameObject
 	{
 		super(main, frames, x, y, setFrameInt);
 	}
-
-	@Override
-	public void render(Graphics g)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void tick()
-	{
-		// TODO Auto-generated method stub
-
-	}
-
 }

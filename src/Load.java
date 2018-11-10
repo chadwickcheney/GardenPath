@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 public class Load
 {
 	private Main main;
-	private Random random;
+	private Random random = new Random();
 
 	private HashMap<String, int[]> creaturesFramesSite = new HashMap<String, int[]>()
 	{
@@ -36,7 +36,6 @@ public class Load
 	public Load(Main main)
 	{
 		this.main = main;
-		random = new Random();
 		init(main.loadMap);
 	}
 
@@ -105,7 +104,7 @@ public class Load
 	public void init(boolean load)
 	{
 		if (load)
-			main.enviromentArray = listConvertArray(readFile(main.enviromentArrayFile));
+		main.enviromentArray = listConvertArray(readFile(main.enviromentArrayFile));
 		else
 			main.enviromentArray = getNewEnviromentArray(main.heightTiles, main.widthTiles);
 
@@ -208,6 +207,7 @@ public class Load
 		try
 		{
 
+			System.out.println(imagefilename);
 			BufferedImage image = ImageIO.read(getClass().getResourceAsStream(imagefilename));
 
 			HashMap<Integer, BufferedImage> mapPlot = new HashMap<Integer, BufferedImage>()
@@ -348,7 +348,6 @@ public class Load
 	{
 		try
 		{
-
 			File file = new File(filename);
 			BufferedReader br = new BufferedReader(new FileReader(file));
 
@@ -370,6 +369,7 @@ public class Load
 		return null;
 	}
 
+	//Converts only list from textfile
 	public int[][] listConvertArray(List<Integer> list)
 	{
 		int rows = list.get(0);

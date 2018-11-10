@@ -17,6 +17,7 @@ public class Interface extends UserInterface
 		if (event.guiToggle)
 		{
 			g.drawImage(img, xImage, yImage, img.getWidth() * main.guiScaleX, img.getHeight() * main.guiScaleY, null);
+
 			// String Fonts and Color
 			g.setFont(main.mainFont);
 			g.setColor(main.guiFontColor);

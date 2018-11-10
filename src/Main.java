@@ -20,16 +20,16 @@ public class Main extends Canvas implements Runnable
 	public int widthTiles = 200;
 	public int heightTiles = 200;
 	public int[][] enviromentArray = new int[widthTiles][heightTiles];
-	public boolean loadMap = false;
+	public boolean loadMap = true;
 	public boolean debug = true;
 	public boolean gameplay = false;
 	// Strings
 	public String title = "Ridge";
 	public String enviromentArrayFile = "enviromentFile.txt";
-	public String guiTilesFile = "userInterface.png";
-	public String enviromentTilesFile = "basictiles2.png";
-	public String creatureFramesFile = "characters.png";
-	public String deadFramesFile = "dead.png";
+	public String guiTilesFile = "res/userInterface.png";
+	public String enviromentTilesFile = "res/basictiles2.png";
+	public String creatureFramesFile = "res/characters.png";
+	public String deadFramesFile = "res/dead.png";
 	// Screen
 	public int Width = 1920;
 	public int Height = 1080;

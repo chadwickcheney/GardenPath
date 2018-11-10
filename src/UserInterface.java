@@ -39,6 +39,7 @@ abstract class UserInterface
 	{
 		interfacesPlot.put("player grid", main.player);
 		interfacesPlot.put("mouse grid", main.mouse);
+		interfacesPlot.put("env grid", main.mouse);
 	}
 
 	public int getLocationXImage(int x)

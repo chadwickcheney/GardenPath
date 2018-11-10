@@ -49,20 +49,64 @@ abstract class GameObject
 		this.frames.add(new Frame(image, this.frames.size() + 1));
 	}
 
-	abstract public void tick();
-
-	public void uniformTick()
+	public void tick()
 	{
-		updateGrid();
+		if ( !(this instanceof Player) || (!(this instanceof Mouse)) )
+		{
+			updateGrid();
+		}
+
+		if (!(arrivedX))
+		{
+			if (gridX < destinationPair[0])
+			{
+				int seed = ((((int) (System.currentTimeMillis() / main.FRAME_RATE)) - event.time) % 4) + 8;
+				img = frames.get(seed).img;
+				moveX(1);
+			}
+
+			if (gridX > destinationPair[0])
+			{
+				int seed = ((((int) (System.currentTimeMillis() / main.FRAME_RATE)) - event.time) % 4) + 4;
+				img = frames.get(seed).img;
+				moveX(-1);
+			}
+		}
+
+		if (!(arrivedY))
+		{
+			if (gridY < destinationPair[1])
+			{
+				int seed = ((((int) (System.currentTimeMillis() / main.FRAME_RATE)) - event.time) % 4) + 0;
+				img = frames.get(seed).img;
+				moveY(1);
+			}
+
+			if (gridY > destinationPair[1])
+			{
+				int seed = ((((int) (System.currentTimeMillis() / main.FRAME_RATE)) - event.time) % 4) + 12;
+				img = frames.get(seed).img;
+				moveY(-1);
+			}
+		}
+
+		if (gridX == destinationPair[0])
+			arrivedX = true;
+		else
+			arrivedX = false;
+
+		if (gridY == destinationPair[1])
+			arrivedY = true;
+		else
+			arrivedY = false;
+
+		if (arrivedX && arrivedY)
+		{
+			doActivity(main.enviromentArray[gridX][gridY]);
+		}
 	}
 
-	public void detectCollisoins()
-	{
-
-	}
-
-	// For all GameObjects except Mouse and Player as There x and y are treated
-	// differently
+	// For all GameObjects except Mouse and Player as their x and y are treated differently
 	public void updateGrid()
 	{
 		gridX = getGridX(x + renderXOffset);
@@ -129,7 +173,6 @@ abstract class GameObject
 
 	public void render(Graphics g)
 	{
-		g.drawImage(img, x + main.world.x + renderXOffset, y + main.world.y + renderYOffset,
-				img.getWidth() * main.scaleX, img.getHeight() * main.scaleY, null);
+		g.drawImage(img, x + main.world.x + renderXOffset, y + main.world.y + renderYOffset, img.getWidth() * main.scaleX, img.getHeight() * main.scaleY, null);
 	}
 }

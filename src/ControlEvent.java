@@ -32,29 +32,6 @@ public class ControlEvent
 		guiToggle = true;
 	}
 
-	/*public void set(String key, boolean status)
-	{
-		if (key == "left")
-			left = status;
-		if (key == "right")
-			right = status;
-		if (key == "up")
-			up = status;
-		if (key == "down")
-			down = status;
-		if (key == "space")
-			space = status;
-		if (key == "guiToggle" && !guiToggle)
-		{
-			guiToggle = true;
-		}
-		else
-		{
-			guiToggle = false;
-		}
-	}*/
-
-	
 	public void toggle()
 	{
 		if (keys.get("guiToggle") && !guiToggle)
@@ -62,7 +39,7 @@ public class ControlEvent
 			guiToggle = false;
 		}
 	}
-	
+
 	public void setToggle(String key)
 	{
 		if (key == "guiToggle")
